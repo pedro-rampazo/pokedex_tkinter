@@ -1,14 +1,41 @@
-from tkinter import *
+import tkinter
 from tkinter.ttk import *
+from PIL import Image, ImageTk
+from module import *
 
 root = Tk()
 root.title('Pokedex')
-root.configure(width=683, height=384)
 
-s = Style()
-s.configure('My.TFrame', background='dark blue')
+# WIDGETS
+title_page = Label(root, text='Pokedex Tkinter', font=("Ubuntu", 30), foreground='#DE1537')
+icon_left = get_image(root, 'images/pokeball.png')
+icon_right = get_image(root, 'images/pokeball.png')
 
-mail1 = Frame(root, style='My.TFrame')
-mail1.place(height=50, width=600)
-mail1.config()
+pokemon_list = Listbox(root)
+scroll_list = Scrollbar(root, command=pokemon_list.yview)
+pokemon_list['yscrollcommand'] = scroll_list.set
+pokemon_view = Frame(root, width=100, height=100, style='LightBlue.TFrame')
+
+# STYLE
+dark_red = Style()
+dark_red.configure('DarkRed.TFrame', background='#8F0C25')
+
+light_blue = Style()
+light_blue.configure('LightBlue.TFrame', background='#27A4F3')
+
+# PLACE
+title_page.grid(column=2, row=1, columnspan=2)
+icon_left.grid(column=1, row=1, pady=10, padx=100)
+icon_right.grid(column=4, row=1, pady=10, padx=100)
+pokemon_list.grid(column=1, row=2, sticky='nsew', columnspan=2, padx=10, pady=5)
+scroll_list.grid(column=2, row=2, sticky='ns')
+pokemon_view.grid(column=3, row=2, sticky='nsew', columnspan=4, padx=10, pady=5)
+
+# pokemon_list.grid_columnconfigure(1, weight=1)
+# pokemon_list.grid_rowconfigure(1, weight=1)
+
+for x in range(100):
+    pokemon_list.insert('end', 'Line %d of 100' % x)
+
+
 root.mainloop()
