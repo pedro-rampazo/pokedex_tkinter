@@ -9,6 +9,8 @@ mydb = mysql.connector.connect(
 
 db_obj = mydb.cursor()
 
-db_obj.execute("SELECT * FROM pokemon")
 
-pokemon_table = db_obj.fetchall()
+def load_table():
+    db_obj.execute("SELECT * FROM pokemon")
+    pokemon_table = db_obj.fetchall()
+    return pokemon_table

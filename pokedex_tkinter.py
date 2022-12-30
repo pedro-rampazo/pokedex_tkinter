@@ -1,8 +1,57 @@
 import tkinter
+from tkinter import messagebox
 from tkinter.ttk import *
 from PIL import Image, ImageTk
 from module import *
 from db_connection import *
+
+pokemon_table = load_table()
+
+
+def load_items():
+    pokemon_list.delete(0, END)
+    for id_name in load_table():
+        pokemon_list.insert('end', f'#{str(id_name[0]).zfill(3)} {id_name[1]}')
+
+
+def view_info(*args):
+    idx = pokemon_list.curselection()[0]
+
+    display_id = str(pokemon_table[idx][0]).zfill(3)
+    display_name = pokemon_table[idx][1]
+    display_type = pokemon_table[idx][2]
+    display_color = pokemon_table[idx][3]
+    display_image = pokemon_table[idx][4]
+
+    pokemon_id.config(text=f'#{display_id}', background=display_color)
+    pokemon_name.config(text=f'{display_name}', background=display_color)
+    pokemon_type.config(text=f'{display_type}', background=display_color)
+    pokemon_image.config(background=display_color)
+    pokemon_view.config(background=display_color)
+
+    image = Image.open(display_image)
+    image = image.resize((200, 200))
+    photo = ImageTk.PhotoImage(image)
+    pokemon_image.configure(image=photo)
+    pokemon_image.image = photo
+
+
+def close_window():
+    root.quit()
+
+
+def remove_item():
+    poke_obj = pokemon_list.curselection()[0]
+    poke_obj = pokemon_list.get(poke_obj)
+    poke_obj = poke_obj.split()[1]
+    answer = messagebox.askyesno(message='Remove this pokemon?', icon='question', title='Remove')
+    if answer:
+        query = f"DELETE FROM pokemon WHERE name = '{poke_obj}'"
+        db_obj.execute(query)
+        mydb.commit()
+        load_items()
+# messagebox.showinfo(message=f'{poke_obj}')
+
 
 """
 INITIALIZING WINDOW
@@ -55,7 +104,7 @@ pokemon_list = Listbox(
 
 # POKEMON VIEWER
 
-pokemon_view = Frame(
+pokemon_view = tkinter.Frame(
     root,
     width=100,
     height=100
@@ -124,7 +173,8 @@ exit_button = tkinter.Button(
     height=1,
     relief=FLAT,
     width=8,
-    activeforeground="#363636"
+    activeforeground="#363636",
+    command=close_window
 )
 
 remove_button = tkinter.Button(
@@ -136,7 +186,8 @@ remove_button = tkinter.Button(
     height=1,
     relief=FLAT,
     width=8,
-    activeforeground="#DE1537"
+    activeforeground="#DE1537",
+    command=remove_item
 )
 
 
@@ -256,7 +307,14 @@ remove_button.grid(
     pady=5
 )
 
-for id_name in pokemon_table:
-    pokemon_list.insert('end', f'#{str(id_name[0]).zfill(3)} {id_name[1]}')
+
+"""
+FUNCTIONALITIES
+"""
+
+
+load_items()
+
+pokemon_list.bind('<<ListboxSelect>>', view_info)
 
 root.mainloop()
