@@ -2,7 +2,7 @@ import tkinter
 from tkinter import messagebox
 from tkinter.ttk import *
 from PIL import Image, ImageTk
-from module import *
+from tklib import *
 from db_connection import *
 
 pokemon_table = load_table()
@@ -50,7 +50,14 @@ def remove_item():
         db_obj.execute(query)
         mydb.commit()
         load_items()
-# messagebox.showinfo(message=f'{poke_obj}')
+
+
+def add_item():
+    window = Tk()
+    window.title("Add Pokemon:")
+    label = Label(window, text="Add Pokemon:")
+    label.grid(column=1, row=1)
+    window.mainloop()
 
 
 """
@@ -149,7 +156,8 @@ add_button = tkinter.Button(
     height=1,
     relief=FLAT,
     width=8,
-    activeforeground='#4CA459'
+    activeforeground='#4CA459',
+    command=add_item
 )
 
 edit_button = tkinter.Button(

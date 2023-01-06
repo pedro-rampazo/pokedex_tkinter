@@ -2,7 +2,7 @@ import tkinter
 from tkinter import messagebox
 from tkinter.ttk import *
 from PIL import Image, ImageTk
-from module import *
+from tklib import *
 from db_connection import *
 
 
