@@ -1,15 +1,14 @@
-import tkinter
-from widget import widget
+from tkinter import *
+from main_window import *
 
 
-class App(tkinter.Tk):
+class App:
     def __init__(self):
-        root = super().__init__()
-        self.title('Pokedex')
-
-        widget(root)
+        root = Tk()
+        MainWindow(root)
+        # AddItemWindow(root)
+        root.mainloop()
 
 
 if __name__ == "__main__":
-    app = App()
-    app.mainloop()
+    App()

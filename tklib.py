@@ -10,3 +10,8 @@ def get_image(parent, image_path, width, height):
     label = Label(parent, image=photo)
     label.image = photo
     return label
+
+
+def format_path(filepath):
+    filepath = filepath.split("/")
+    return f"{filepath[-2]}/{filepath[-1]}"
