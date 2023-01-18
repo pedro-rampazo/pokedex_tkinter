@@ -6,6 +6,7 @@ from tkinter import *
 from tkinter import messagebox
 from db_connection import *
 from additem_window import *
+from edititem_window import *
 from PIL import Image, ImageTk
 
 
@@ -188,7 +189,8 @@ class MainWindow:
             height=1,
             relief=FLAT,
             width=8,
-            activeforeground='#27A4F3'
+            activeforeground='#27A4F3',
+            command=self.edit_item
         )
         self.edit_button.grid(
             column=1,
@@ -239,9 +241,8 @@ class MainWindow:
         )
 
     def load_items(self):
-        self.pokemon_list.delete(0, END)
         for id_name in load_table():
-            self.pokemon_list.insert('end', f"#{str(id_name[0]).zfill(3)} {id_name[1]}")
+            self.pokemon_list.insert(END, f'{str(id_name[0]).zfill(3)} {id_name[1]}')
 
     def remove_item(self):
         poke_obj = self.pokemon_list.curselection()[0]
@@ -252,7 +253,7 @@ class MainWindow:
             query = f"DELETE FROM pokemon WHERE name = '{poke_obj}'"
             db_obj.execute(query)
             mydb.commit()
-            self.load_items()
+            self.refresh()
 
     def view_info(self, *args):
         idx = self.pokemon_list.curselection()[0]
@@ -278,5 +279,16 @@ class MainWindow:
     def add_item(self):
         new_window = tkinter.Toplevel()
         AddItemWindow(new_window)
-        self.load_items()
         new_window.mainloop()
+        new_window.destroy()
+        self.refresh()
+
+    def edit_item(self):
+        new_window = tkinter.Toplevel()
+        EditItemWindow(new_window)
+        new_window.mainloop()
+        new_window.destroy()
+        self.refresh()
+
+    def refresh(self):
+        self.__init__(self.master)

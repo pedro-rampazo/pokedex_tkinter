@@ -1,22 +1,20 @@
-import os.path
-from tkinter import *
-from tklib import *
 import tkinter
+from tkinter import *
 from tkinter import messagebox, colorchooser, filedialog
-from db_connection import *
-from main_window import *
+
+from tklib import *
 
 
-class AddItemWindow:
+class EditItemWindow:
     def __init__(self, master):
         self.master = master
-        master.title("Add")
+        master.title("Edit")
 
         # HEADER
 
         self.title_page = Label(
             master,
-            text="Add Pokemon",
+            text="Edit Pokemon",
             font=("Ubuntu", 20),
             foreground="#DE1537"
         )
@@ -44,7 +42,7 @@ class AddItemWindow:
         self.name_label = Label(
             master,
             text="Name:",
-            font=("Ubuntu Thin", 12),
+            font=("Ubuntu Thin", 12)
         )
         self.name_label.grid(
             column=1,
@@ -53,7 +51,7 @@ class AddItemWindow:
             padx=5
         )
 
-        self.type_label = Label(
+        self. type_label = Label(
             master,
             text="Type:",
             font=("Ubuntu Thin", 12)
@@ -202,8 +200,8 @@ class AddItemWindow:
             background="#27A4F3",
             font=("Ubuntu Light", 12),
             foreground="#DEDEDE",
-            relief=FLAT,
-            command=self.register
+            relief=FLAT
+            # command = self.register
         )
         self.save_button.grid(
             column=3,
@@ -251,24 +249,3 @@ class AddItemWindow:
         self.master.deiconify()
         answer = format_path(answer)
         self.image_strvar.set(str(answer))
-
-    def register(self):
-        validation = check_fields(
-            self.id_intvar.get(),
-            self.name_strvar.get(),
-            self.type_strvar.get(),
-            self.color_strvar.get(),
-            self.image_strvar.get()
-        )
-
-        if not validation:
-            messagebox.showinfo(message=f"Error: empty fields.")
-        else:
-            query = f"INSERT INTO pokemon VALUES ({validation[0]}, " \
-                    f"'{validation[1]}', " \
-                    f"'{validation[2]}', " \
-                    f"'{validation[3]}', " \
-                    f"'{validation[4]}')"
-            db_obj.execute(query)
-            mydb.commit()
-            self.master.quit()

@@ -4,10 +4,10 @@ from main_window import *
 
 class App:
     def __init__(self):
-        root = Tk()
-        MainWindow(root)
+        self.root = Tk()
+        MainWindow(self.root)
         # AddItemWindow(root)
-        root.mainloop()
+        self.root.mainloop()
 
 
 if __name__ == "__main__":
