@@ -3,12 +3,23 @@ from tkinter import *
 from tkinter import messagebox, colorchooser, filedialog
 
 from tklib import *
+from db_connection import *
+
+
+def search(name):
+    query = f"SELECT * FROM pokemon WHERE name = '{name}'"
+    db_obj.execute(query)
+    result = db_obj.fetchall()
+    return result[0]
 
 
 class EditItemWindow:
-    def __init__(self, master):
+    def __init__(self, master, pokemon_name):
         self.master = master
+        self.pokemon_name = pokemon_name
         master.title("Edit")
+
+        poke_obj = search(self.pokemon_name)
 
         # HEADER
 
@@ -88,6 +99,7 @@ class EditItemWindow:
         )
 
         self.color_strvar = StringVar()
+        self.color_strvar.set(poke_obj[3])
         self.color_selected = Label(
             master,
             textvariable=self.color_strvar,
@@ -102,6 +114,7 @@ class EditItemWindow:
         )
 
         self.image_strvar = StringVar()
+        self.image_strvar.set(poke_obj[4])
         self.image_selected = Label(
             master,
             textvariable=self.image_strvar,
@@ -118,10 +131,12 @@ class EditItemWindow:
         # ENTRYS
 
         self.id_intvar = IntVar()
+        self.id_intvar.set(poke_obj[0])
         self.id_entry = Entry(
             master,
             textvariable=self.id_intvar,
-            font=("Ubuntu Light", 12)
+            font=("Ubuntu Light", 12),
+            state=DISABLED
         )
         self.id_entry.grid(
             column=2,
@@ -133,6 +148,7 @@ class EditItemWindow:
         )
 
         self.name_strvar = StringVar()
+        self.name_strvar.set(poke_obj[1])
         self.name_entry = Entry(
             master,
             textvariable=self.name_strvar,
@@ -148,6 +164,7 @@ class EditItemWindow:
         )
 
         self.type_strvar = StringVar()
+        self.type_strvar.set(poke_obj[2])
         self.type_entry = Entry(
             master,
             textvariable=self.type_strvar,
@@ -200,8 +217,8 @@ class EditItemWindow:
             background="#27A4F3",
             font=("Ubuntu Light", 12),
             foreground="#DEDEDE",
-            relief=FLAT
-            # command = self.register
+            relief=FLAT,
+            command=self.register
         )
         self.save_button.grid(
             column=3,
@@ -249,3 +266,24 @@ class EditItemWindow:
         self.master.deiconify()
         answer = format_path(answer)
         self.image_strvar.set(str(answer))
+
+    def register(self):
+        validation = check_fields(
+            self.id_intvar.get(),
+            self.name_strvar.get(),
+            self.type_strvar.get(),
+            self.color_strvar.get(),
+            self.image_strvar.get()
+        )
+
+        if not validation:
+            messagebox.showinfo(message=f"Error: empty fields.")
+        else:
+            query = f"UPDATE pokemon SET name = '{self.name_strvar.get()}', " \
+                    f"type = '{self.type_strvar.get()}', " \
+                    f"type_color = '{self.color_strvar.get()}', " \
+                    f"image_path = '{self.image_strvar.get()}' " \
+                    f"WHERE id = {self.id_intvar.get()}"
+            db_obj.execute(query)
+            mydb.commit()
+            self.master.quit()

@@ -284,8 +284,9 @@ class MainWindow:
         self.refresh()
 
     def edit_item(self):
+        pokemon_name = self.pokemon_table[self.pokemon_list.curselection()[0]][1]
         new_window = tkinter.Toplevel()
-        EditItemWindow(new_window)
+        EditItemWindow(new_window, pokemon_name)
         new_window.mainloop()
         new_window.destroy()
         self.refresh()
