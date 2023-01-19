@@ -1,3 +1,5 @@
+#! /home/pedro/Development/venv/tkinter_venv/bin/python
+
 from tkinter import *
 from main_window import *
 
