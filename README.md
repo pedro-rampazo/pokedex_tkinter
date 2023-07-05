@@ -10,7 +10,7 @@
 - [Funcionalidades](https://github.com/pedro-rampazo/pokedex_tkinter#funcionalidades)
 - [Acesso ao projeto](https://github.com/pedro-rampazo/pokedex_tkinter#tecnologias-utilizadas)
 - [Tecnologias Utilizadas](https://github.com/pedro-rampazo/pokedex_tkinter#pessoas-contribuidores)
-- [Pessoas Contribuidoras](https://github.com/pedro-rampazo/pokedex_tkinter#pessoas-contribuidores)
+- [Pessoas Contribuidoras](https://github.com/pedro-rampazo/pokedex_tkinter#pessoas-contribuidoras)
 - [Conclusão](https://github.com/pedro-rampazo/pokedex_tkinter#conclusão)
 
 ## Descrição
@@ -38,7 +38,7 @@ Para executar o projeto, execute o arquivo "app.py"
 
 #Python | #MySQL | #Tkinter
 
-## Pessoas Contribuidores
+## Pessoas Contribuidoras
 
 Pedro Rampazo - Criador e desenvolvedor do projeto
 
